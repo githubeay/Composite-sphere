@@ -1,2 +1,2 @@
 # Composite-sphere
-Homogénization of a composite sphere using boundary conditions
+Homogenization of a composite sphere using spherical base and boundary conditions
