@@ -1,0 +1,119 @@
+/*
+Exercise : Composite sphere
+
+Here we calculate the problem of the composite sphere
+Its abount an inclusion covered by a layer of matrix
+These analytical results are needed to validate a finite element calculation
+*/
+
+/* Preliminary */
+
+load("eigen")$
+load("diag")$
+load ("nchrpl")$
+print("Load: eigen, diag, nchrpl")$
+
+/* Operator definition */
+
+/* Grandient & Divergence in the base (eR, eT, eH) */
+depends(g, [r, t, h])$
+
+GRAD(f) := covect([diff(f,r), 1/r*diff(f,t), 1/(r*sin(t))*diff(f,h)])$
+
+GRADD(f) := matrix(
+    [diff(f[1, 1], r), (diff(f[1, 1], t) - f[2, 1]) / r, diff(f[1, 1], h) / (r * sin(t)) - f[3, 1] / r],
+    [diff(f[2, 1], r), (diff(f[2, 1], t) + f[1, 1]) / r, diff(f[2, 1], h) / (r * sin(t)) - f[3, 1] / (r * tan(t))],
+    [diff(f[3, 1], r), diff(f[3, 1], t) / r            , diff(f[3, 1], h) / (r * sin(t)) + f[1, 1] / r + f[2, 1] / (r * tan(t))]
+)$
+
+GRADD_SYM(f) := block([temp],
+    temp : GRADD(f),
+    return((1 / 2) * (temp + transpose(temp)))
+    )$
+
+DIV(f) := diff(f[1, 1],r) + 1/r*diff(f[2, 1], t) + 1/(r*sin(t))*diff(f[3, 1],h) + f[2, 1]/(r*tan(t)) + 2*f[1, 1]/r$
+
+DIVV(f) := covect([
+    diff(f[1, 1], r) + diff(f[1, 2], t) / r + diff(f[1, 3], h) / (r * sin(t)) + (2 * f[1, 1] - f[2, 2] - f[3, 3]) / r + f[1, 2] / (r * tan(t)),
+    diff(f[1, 2], r) + diff(f[2, 2], t) / r + diff(f[2, 3], h) / (r * sin(t)) + 3 * f[1, 2] / r + (f[2, 2] - f[3, 3]) / (r * tan(t)),
+    diff(f[1, 3], r) + diff(f[2, 3], t) / r + diff(f[3, 3], h) / (r * sin(t)) + 3 * f[1, 3] / r + 2 * f[2, 3] / (r * tan(t))
+])$
+
+print("")$
+Print("Operators")$
+print("    GRAD(f) =", subst(f, g, GRAD(g)))$
+print("    GRADD(u) =", subst(u, g, GRADD(g)))$
+print("    GRADD_SYM(u) =", subst(u, g, GRADD_SYM(g)))$
+print("    DIV(u) =", subst(u, g, DIV(g)))$
+print("    DIVV(A) =", subst(A, g, DIVV(g)))$
+
+/* Voigt notation */
+
+sig_voigt(s) := covect([s[1, 1], s[2, 2], s[3, 3], s[2, 3], s[1, 3], s[1, 2]])$
+sig_unvoigt(s) := matrix([s[1, 1], s[6, 1], s[5, 1]], [s[6, 1], s[2, 1], s[4, 1]], [s[5, 1], s[4, 1], s[3, 1]])$
+
+eps_voigt(e) := covect([e[1, 1], e[2, 2], e[3, 3], 2 * e[2, 3], 2 * e[1, 3], 2 * e[1, 2]])$
+eps_unvoigt(e) := matrix([e[1, 1], e[6, 1] / 2, e[5, 1] / 2], [e[6, 1] / 2, e[2, 1], e[4, 1] / 2], [e[5, 1] / 2, e[4, 1] / 2, e[3, 1]])$
+
+print("")$
+print("Voigt notation")$
+print("    sig_voigt(g) = ", subst(sigma, g, sig_voigt(g)),
+      "    sig_unvoigt(g) =", subst(sigma, g, sig_unvoigt(g)))$
+print("    eps_voigt(g) = ", subst(epsilon, g, eps_voigt(g)),
+      "    eps_unvoigt(g) =", subst(epsilon, g, eps_unvoigt(g)))$
+
+/* Constante definition */
+
+z : covect([z1, z2, z3])$
+e1 : diff(z, z1)$
+e2 : diff(z, z2)$
+e3 : diff(z, z3)$
+
+z : r * covect([sin(t) * cos(h), sin(t) * sin(h), cos(t)])$
+eR : diff(z, r)$
+eT : diff(z, t) / r$
+eH : diff(z, h) / (r * sin(t))$
+
+i : sig_voigt(addcol(e1, e2, e3))$
+I : ident(6)$
+J : 1 / 3 * i . transpose(i)$
+K : I - J$
+
+print("")$
+print("Constants")$
+print("    Canonical : e1=", e1, "  e2=", e2, "  e3=", e3)$
+print("    Spherical : eR=", eR, "  eT=", eT, "  eH=", eH, "  z=", z)$
+print("    i = ", i, "  I=", I, "  J=", J,"  K=", K)$
+
+/* Matrices de passage */
+
+Psc : addcol(matrix(), eR, eT, eH)$
+Pcs : trigsimp(invert(Psc))$
+print("")$
+print("Transition matrix")$
+print("    Psc = ", Psc, "  Pcs = ", Pcs)$
+
+/* Tools */
+vect2list(u) := makelist(u[i][1],i,1,matrix_size(u)[1])$
+print("")$
+print("Tools")$
+print("    vect2list(u) : transforms vectors to lists")$
+
+
+/* Hypothesis */
+
+/*
+Ri & Rm are respectively the radius of the inclusion and of the matrix
+We have 0 < Ri & Ri < Rm
+*/
+
+assume(0 < Ri)$
+assume(Ri < Rm)$
+print("")$
+print("Hypothesis")$
+print("    Is assumed : 0 < Ri < Rm")$
+
+/*
+ * Free the variables
+ */
+kill(g)$

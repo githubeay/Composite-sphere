@@ -1,0 +1,499 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 19.05.7 ] */
+/* [wxMaxima: title   start ]
+Exercise : Composite sphere
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Here we calculate the problem of the composite sphere
+Its abount an inclusion covered by a layer of matrix
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+Preliminary
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+load("./composite_sphere_preliminary.mac");
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Effective stiffness estimation
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Auxiliary problem
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: comment start ]
+The problem is defined with the following equations :
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+DIV(sig) = 0;                           On V    Equilibrium
+sig = c * eps;                          On V    Comportment
+n.[sig].n = n.[sig_m - sig_i].n = 0;    On Isf  Continuity
+u = E.z;                                On S    Boundary conditions KUBC
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Form of the displacement function
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: comment start ]
+It is known that
+    Ceff = Cm * I + f * (Cm - Ci) . As
+
+Where
+    Ceff    is the effective stiffness
+    Cm      is the matrix stiffness
+    Ci      is the inclusion stiffness
+    f       is the volume fraction
+    As      is the mean of the localisation tensor on the inclusion
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+Composite sphere - Displacement shape under volumic load
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+In this case, and taking the symmetry into account, the displacement is of the form:
+    disp = g(r) * eR
+
+Remark : eR = e1 in the spherical base
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Equations
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+disp : g(r) * e1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+temp : GRADD(disp)$
+eps : trigsimp(eps_voigt(temp + transpose(temp)) / 2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+C : 3 * k * J + 2 * mu * K;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sig : C . eps;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Let's find the shape of the displacement function
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+temp : sig_unvoigt(sig)$
+print(trigsimp(DIVV(temp)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+eqn_1 : trigsimp(DIVV(sig_unvoigt(sig)))[1, 1] = 0$
+eqn_1 : trigsimp(eqn_1 / ((k + 2 * mu) / 3 / r**2));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ode2(eqn_1, g(r), r);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+The displacement function is of the form:
+    g(r) = A * r + B / r**2
+where A and B are material constants
+A and B are found by the limit conditions
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+Composite sphere - Resolution
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Definitions
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: comment start ]
+Load KUBC
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Eps : J . (E * i);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Equations in the matrix
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+c0 : 3 * k0 * J + 2 * mu0 * K$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+g0 : A0 * r + B0 / r**2$
+disp0 : g0 * e1$
+temp : GRADD(disp0)$
+eps0 : trigsimp(eps_voigt(temp + transpose(temp)) / 2)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sig0 : trigsimp(c0 . eps0)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("Matrix :", "  disp0 =", disp0, "  sig0 =", sig0)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Equations in the inclusion
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+c1 : 3 * k1 * J + 2 * mu1 * K$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+g1 : A1 * r + B1 / r**2$
+disp1 : g1 * e1$
+temp : GRADD(disp1)$
+eps1 : trigsimp(eps_voigt(temp + transpose(temp)) / 2)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sig1 : trigsimp(c1 . eps1)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("Inclusion :", "  disp1 =", disp1, "  sig1 =", sig1)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Verification: div(sig) = 0
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("div(sig0) = ",trigsimp(DIVV(sig_unvoigt(sig0))))$
+print("div(sig1) = ",trigsimp(DIVV(sig_unvoigt(sig1))))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Limit conditions
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: comment start ]
+1)  Limite on the bound (r = Rm)
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cond1 : disp0 - eps_unvoigt(Eps) . (r * e1)$
+eqn_1: subst([r=Rm], trigsimp(cond1[1, 1] * r**2) = 0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+2)  Interface : Matrix / Inclusion  (r = Ri)
+        Continuity of sig
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cond2 : trigsimp(sig_unvoigt(sig1 - sig0) . e1)$
+eqn_2 : subst([r=Ri], cond2[1, 1] * r**3 = 0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+3)  Interface : Matrice / Inclusion (r = Ri)
+        Continuity of disp
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cond3 : trigsimp(disp1 - disp0)$
+eqn_3 : subst([r=Ri], cond3[1, 1] * r**2 = 0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+4)  Limite à r = 0
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cond4 : limit(disp1 * r**2, r, 0)$
+eqn_4 : cond4[1, 1] = 0;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Sumerizing the equations
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("1)  ", eqn_1)$
+print("2)  ", eqn_2)$
+print("3)  ", eqn_3)$
+print("4)  ", eqn_4)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Equation solving
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sol: linsolve([eqn_1, eqn_2, eqn_3, eqn_4], [A0, B0, A1, B1]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+A0 : ratsimp(subst(sol, A0));
+B0 : ratsimp(subst(sol, B0));
+A1 : ratsimp(subst(sol, A1));
+B1 : ratsimp(subst(sol, B1));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Results
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("  disp0 = ", factor(ratsimp(subst([Ri**3=Rm**3 * f], ev(disp0)))),
+      "  eps0 = ", factor(ratsimp(subst([Ri=Rm * f**(1/3)], ev(eps0)))),
+      "  sig0 = ", factor(ratsimp(subst([Ri=Rm * f**(1/3)], ev(sig0))))
+    )$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("  disp1 = ", factor(ratsimp(subst([Ri**3=Rm**3 * f], ev(disp1)))),
+      "  eps1 = ", factor(ratsimp(subst([Ri**3=Rm**3 * f], ev(eps1)))),
+      "  sig1 = ", factor(ratsimp(subst([Ri**3=Rm**3 * f], ev(sig1))))
+    )$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Effective stifness calculation
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: comment start ]
+Ici on veur résoudre l'équation <g,s'> = As'*G0
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+1)  Moyenne sur l'inclusion
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+temp : subst([r=Ri], Psc . ev(disp1)) . transpose(eR) * Ri**2 * sin(t)$
+temp : integrate(temp, t, 0, %pi)$
+temp : integrate(temp, h, 0, 2*%pi)$
+Eps1 : temp / (4 / 3 * %pi * Ri**3)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Eps1 : eps_voigt(Eps1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Results
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: comment start ]
+Careful! We focus only on the spherical part.
+The deviatoric part can't be deduced only from this example
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+As : diag(transpose(trigsimp(Eps1 / E))[1]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+c_eff : subst([Ri = (f**(1/3) * Rm)], c0 + f * (c1 - c0) . As);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Functions
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+fParams : [k0=_k0, mu0=_mu0, k1=_k1, mu1=_mu1, f=_f];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+k_eff_expr : trigsimp(c_eff . J)[1, 1]$
+k_eff(_k0, _mu0, _k1, _f) := ev(subst(fParams, k_eff_expr))$
+print("k_eff =", k_eff(k0, mu0, k1, f))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+mu_eff_expr : trigsimp(limit((c_eff . K) / (K + e), e, 0) / 2)[1, 1]$
+mu_eff(_k0, _mu0, _k1, _mu1, _f) := ev(subst(fParams, mu_eff_expr))$
+print("mu_eff =", mu_eff(k0, mu0, k1, mu1, f))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Verifications
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+trigsimp(k_eff(k0, mu0, k1, 0));
+trigsimp(mu_eff(k0, mu0, k1, mu1, 0));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+trigsimp(k_eff(k0, mu0, k1, 1));
+trigsimp(mu_eff(k0, mu0, k1, mu1, 1));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Applications - Examples
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: comment start ]
+Contrast = 10
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+mu0_list : [1e-2, 1e-1, 1, 1e1, 1e2]$
+wxplot2d(
+    k_eff(1, mu0_list, 10, f),
+    [f, 0, 1],
+    [gnuplot_preamble, "set key on inside left top"],
+    append([legend], makelist(concat("mu0 = ", s), s, mu0_list))
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Contrast = 100
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+k1_list : [1e-2, 1e-1, 1, 1e1, 1e2]$
+wxplot2d(
+    mu_eff(1, 1, k1_list, 100, f),
+    [f, 0, 1],
+    [gnuplot_preamble, "set key on inside left top"],
+    append([legend], makelist(concat("k1 = ", s), s, k1_list))
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Porous media (K1=0, mu1=0)
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+mu1_list : [1e-2, 1e-1, 1, 1e1, 1e2]$
+wxplot2d(
+    k_eff(1, mu1_list, 0, f),
+    [f, 0, 1],
+    [gnuplot_preamble, "set key on inside right top"],
+    append([legend], makelist(concat("mu1 = ", s), s, k1_list))
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+k0_list : [1e-2, 1e-1, 1, 1e1, 1e2]$
+wxplot2d(
+    mu_eff(k0_list, 1, 0, 0, f),
+    [f, 0, 1],
+    [gnuplot_preamble, "set key on inside right top"],
+    append([legend], makelist(concat("k0 = ", s), s, k1_list))
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+In function of the contrast
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f_list : [.01, .20, .50, .70, .99]$
+wxplot2d(
+    k_eff(1, 1, k1, f_list),
+    [k1, 1e-2, 1e2],
+    [logx],
+    [logy],
+    [gnuplot_preamble, "set key on inside left top"],
+    append([legend], makelist(concat("f = ", s), s, f_list))
+)$
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 19.05.7"$
