@@ -1,0 +1,1108 @@
+<!DOCTYPE HTML>
+<HTML>
+ <HEAD>
+  <TITLE>composite_sphere_bulk</TITLE>
+  <META NAME="generator" CONTENT="wxMaxima">
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    displayAlign: "left",
+    context: "MathJax",
+    TeX: {TagSide: "left"}
+  })
+</script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML">
+</script>
+  <link rel="stylesheet" type="text/css" href="composite_sphere_bulk_htmlimg/composite_sphere_bulk.css"/>
+ </HEAD>
+ <BODY>
+
+<!-- ***************************************************** -->
+<!--          Created with wxMaxima version 19.05.7         -->
+<!-- ***************************************************** -->
+<noscript><div class="error message">    Please enable JavaScript in order to get a 2d display of the equations embedded in this web page.</div></noscript>\(      \DeclareMathOperator{\abs}{abs}
+      \newcommand{\ensuremath}[1]{\mbox{$#1$}}
+\)
+
+<!-- Title cell -->
+
+
+<P CLASS="title">
+Exercise : Composite sphere
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+Here we calculate the problem of the composite sphere<BR><BR>Its abount an inclusion covered by a layer of matrix<BR>
+</P>
+
+
+<!-- Section cell -->
+
+
+<P CLASS="section">
+ &nbsp;1 Preliminary
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i1)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_function">kill</span>(<span class="code_variable">all</span>)<span class="code_endofline">$</span><BR>
+<span class="code_function">load</span>(<span class="code_string">&quot;./composite_sphere_preliminary.mac&quot;</span>)<span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\mbox{}\\Load: eigen, diag, nchrpl  \mbox{}\\    GRAD(f) = \begin{pmatrix}\frac{d}{d r} f\\
+\frac{\frac{d}{d t} f}{r}\\
+\frac{\frac{d}{d h} f}{r \sin{(t)}}\end{pmatrix} \mbox{}\\    GRADD(u) = \begin{pmatrix}\frac{d}{d r} {u_{1,1}} & \frac{\frac{d}{d t} {u_{1,1}}-{u_{2,1}}}{r} & \frac{\frac{d}{d h} {u_{1,1}}}{r \sin{(t)}}-\frac{{u_{3,1}}}{r}\\
+\frac{d}{d r} {u_{2,1}} & \frac{\frac{d}{d t} {u_{2,1}}+{u_{1,1}}}{r} & \frac{\frac{d}{d h} {u_{2,1}}}{r \sin{(t)}}-\frac{{u_{3,1}}}{r \tan{(t)}}\\
+\frac{d}{d r} {u_{3,1}} & \frac{\frac{d}{d t} {u_{3,1}}}{r} & \frac{{u_{2,1}}}{r \tan{(t)}}+\frac{\frac{d}{d h} {u_{3,1}}}{r \sin{(t)}}+\frac{{u_{1,1}}}{r}\end{pmatrix} \mbox{}\\    GRADD\_ SYM(u) = \begin{pmatrix}\frac{d}{d r} {u_{1,1}} & \frac{\frac{\frac{d}{d t} {u_{1,1}}-{u_{2,1}}}{r}+\frac{d}{d r} {u_{2,1}}}{2} & \frac{\frac{\frac{d}{d h} {u_{1,1}}}{r \sin{(t)}}-\frac{{u_{3,1}}}{r}+\frac{d}{d r} {u_{3,1}}}{2}\\
+\frac{\frac{\frac{d}{d t} {u_{1,1}}-{u_{2,1}}}{r}+\frac{d}{d r} {u_{2,1}}}{2} & \frac{\frac{d}{d t} {u_{2,1}}+{u_{1,1}}}{r} & \frac{-\frac{{u_{3,1}}}{r \tan{(t)}}+\frac{\frac{d}{d h} {u_{2,1}}}{r \sin{(t)}}+\frac{\frac{d}{d t} {u_{3,1}}}{r}}{2}\\
+\frac{\frac{\frac{d}{d h} {u_{1,1}}}{r \sin{(t)}}-\frac{{u_{3,1}}}{r}+\frac{d}{d r} {u_{3,1}}}{2} & \frac{-\frac{{u_{3,1}}}{r \tan{(t)}}+\frac{\frac{d}{d h} {u_{2,1}}}{r \sin{(t)}}+\frac{\frac{d}{d t} {u_{3,1}}}{r}}{2} & \frac{\frac{2 {u_{2,1}}}{r \tan{(t)}}+\frac{2 \left( \frac{d}{d h} {u_{3,1}}\right) }{r \sin{(t)}}+\frac{2 {u_{1,1}}}{r}}{2}\end{pmatrix} \mbox{}\\    DIV(u) = \frac{{u_{2,1}}}{r \tan{(t)}}+\frac{\frac{d}{d h} {u_{3,1}}}{r \sin{(t)}}+\frac{\frac{d}{d t} {u_{2,1}}}{r}+\frac{2 {u_{1,1}}}{r}+\frac{d}{d r} {u_{1,1}} \mbox{}\\    DIVV(A) = \begin{pmatrix}\frac{{A_{1,2}}}{r \tan{(t)}}+\frac{\frac{d}{d h} {A_{1,3}}}{r \sin{(t)}}+\frac{\frac{d}{d t} {A_{1,2}}}{r}+\frac{-{A_{3,3}}-{A_{2,2}}+2 {A_{1,1}}}{r}+\frac{d}{d r} {A_{1,1}}\\
+\frac{{A_{2,2}}-{A_{3,3}}}{r \tan{(t)}}+\frac{\frac{d}{d h} {A_{2,3}}}{r \sin{(t)}}+\frac{\frac{d}{d t} {A_{2,2}}}{r}+\frac{3 {A_{1,2}}}{r}+\frac{d}{d r} {A_{1,2}}\\
+\frac{2 {A_{2,3}}}{r \tan{(t)}}+\frac{\frac{d}{d h} {A_{3,3}}}{r \sin{(t)}}+\frac{\frac{d}{d t} {A_{2,3}}}{r}+\frac{3 {A_{1,3}}}{r}+\frac{d}{d r} {A_{1,3}}\end{pmatrix}  \mbox{}\\Voigt notation \mbox{}\\    sig\_ voigt(g) =  \begin{pmatrix}{{sigma}_{1,1}}\\
+{{sigma}_{2,2}}\\
+{{sigma}_{3,3}}\\
+{{sigma}_{2,3}}\\
+{{sigma}_{1,3}}\\
+{{sigma}_{1,2}}\end{pmatrix}     sig\_ unvoigt(g) = \begin{pmatrix}{{sigma}_{1,1}} & {{sigma}_{6,1}} & {{sigma}_{5,1}}\\
+{{sigma}_{6,1}} & {{sigma}_{2,1}} & {{sigma}_{4,1}}\\
+{{sigma}_{5,1}} & {{sigma}_{4,1}} & {{sigma}_{3,1}}\end{pmatrix} \mbox{}\\    eps\_ voigt(g) =  \begin{pmatrix}{{epsilon}_{1,1}}\\
+{{epsilon}_{2,2}}\\
+{{epsilon}_{3,3}}\\
+2 {{epsilon}_{2,3}}\\
+2 {{epsilon}_{1,3}}\\
+2 {{epsilon}_{1,2}}\end{pmatrix}     eps\_ unvoigt(g) = \begin{pmatrix}{{epsilon}_{1,1}} & \frac{{{epsilon}_{6,1}}}{2} & \frac{{{epsilon}_{5,1}}}{2}\\
+\frac{{{epsilon}_{6,1}}}{2} & {{epsilon}_{2,1}} & \frac{{{epsilon}_{4,1}}}{2}\\
+\frac{{{epsilon}_{5,1}}}{2} & \frac{{{epsilon}_{4,1}}}{2} & {{epsilon}_{3,1}}\end{pmatrix}  \mbox{}\\Constants \mbox{}\\    Canonical : e1= \begin{pmatrix}1\\
+0\\
+0\end{pmatrix}   e2= \begin{pmatrix}0\\
+1\\
+0\end{pmatrix}   e3= \begin{pmatrix}0\\
+0\\
+1\end{pmatrix} \mbox{}\\    Spherical : eR= \begin{pmatrix}\cos{(h)} \sin{(t)}\\
+\sin{(h)} \sin{(t)}\\
+\cos{(t)}\end{pmatrix}   eT= \begin{pmatrix}\cos{(h)} \cos{(t)}\\
+\sin{(h)} \cos{(t)}\\
+-\sin{(t)}\end{pmatrix}   eH= \begin{pmatrix}-\sin{(h)}\\
+\cos{(h)}\\
+0\end{pmatrix}   z= \begin{pmatrix}\cos{(h)} r \sin{(t)}\\
+\sin{(h)} r \sin{(t)}\\
+r \cos{(t)}\end{pmatrix} \mbox{}\\    i =  \begin{pmatrix}1\\
+1\\
+1\\
+0\\
+0\\
+0\end{pmatrix}   I= \begin{pmatrix}1 & 0 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0 & 0\\
+0 & 0 & 1 & 0 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & 0\\
+0 & 0 & 0 & 0 & 1 & 0\\
+0 & 0 & 0 & 0 & 0 & 1\end{pmatrix}   J= \begin{pmatrix}\frac{1}{3} & \frac{1}{3} & \frac{1}{3} & 0 & 0 & 0\\
+\frac{1}{3} & \frac{1}{3} & \frac{1}{3} & 0 & 0 & 0\\
+\frac{1}{3} & \frac{1}{3} & \frac{1}{3} & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0\end{pmatrix}   K= \begin{pmatrix}\frac{2}{3} & -\frac{1}{3} & -\frac{1}{3} & 0 & 0 & 0\\
+-\frac{1}{3} & \frac{2}{3} & -\frac{1}{3} & 0 & 0 & 0\\
+-\frac{1}{3} & -\frac{1}{3} & \frac{2}{3} & 0 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & 0\\
+0 & 0 & 0 & 0 & 1 & 0\\
+0 & 0 & 0 & 0 & 0 & 1\end{pmatrix}  \mbox{}\\Transition matrix \mbox{}\\    Psc =  \begin{pmatrix}\cos{(h)} \sin{(t)} & \cos{(h)} \cos{(t)} & -\sin{(h)}\\
+\sin{(h)} \sin{(t)} & \sin{(h)} \cos{(t)} & \cos{(h)}\\
+\cos{(t)} & -\sin{(t)} & 0\end{pmatrix}   Pcs =  \begin{pmatrix}\cos{(h)} \sin{(t)} & \sin{(h)} \sin{(t)} & \cos{(t)}\\
+\cos{(h)} \cos{(t)} & \sin{(h)} \cos{(t)} & -\sin{(t)}\\
+-\sin{(h)} & \cos{(h)} & 0\end{pmatrix}  \mbox{}\\Tools \mbox{}\\    vect2list(u) : transforms vectors to lists  \mbox{}\\Hypothesis \mbox{}\\    Is assumed : 0 &lt;   Ri &lt;   Rm \]
+\[\tag{%o1} ./composite\_ sphere\_ preliminary.mac\]
+
+
+<!-- Section cell -->
+
+
+<P CLASS="section">
+ &nbsp;2 Effective stiffness estimation
+</P>
+
+
+<!-- Subsection cell -->
+
+
+<P CLASS="subsect">
+ &nbsp;2.1 Auxiliary problem
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+The problem is defined with the following equations :<BR>
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+DIV(sig) = 0; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;On V &nbsp;&nbsp;&nbsp;Equilibrium<BR><BR>sig = c * eps; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;On V &nbsp;&nbsp;&nbsp;Comportment<BR><BR>n.[sig].n = n.[sig_m - sig_i].n = 0; &nbsp;&nbsp;&nbsp;On Isf &nbsp;Continuity<BR><BR>u = E.z; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;On S &nbsp;&nbsp;&nbsp;Boundary conditions KUBC<BR>
+</P>
+
+
+<!-- Subsection cell -->
+
+
+<P CLASS="subsect">
+ &nbsp;2.2 Form of the displacement function
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+It is known that<BR><BR> &nbsp;&nbsp;&nbsp;Ceff = Cm * I + f * (Cm - Ci) . As<BR><BR><BR><BR>Where<BR><BR> &nbsp;&nbsp;&nbsp;Ceff &nbsp;&nbsp;&nbsp;is the effective stiffness<BR><BR> &nbsp;&nbsp;&nbsp;Cm &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is the matrix stiffness<BR><BR> &nbsp;&nbsp;&nbsp;Ci &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is the inclusion stiffness<BR><BR> &nbsp;&nbsp;&nbsp;f &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is the volume fraction<BR><BR> &nbsp;&nbsp;&nbsp;As &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is the mean of the localisation tensor on the inclusion<BR>
+</P>
+
+
+<!-- Section cell -->
+
+
+<P CLASS="section">
+ &nbsp;3 Composite sphere - Displacement shape under volumic load
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+In this case, and taking the symmetry into account, the displacement is of the form:<BR><BR> &nbsp;&nbsp;&nbsp;disp = g(r) * eR<BR><BR><BR><BR>Remark : eR = e1 in the spherical base<BR>
+</P>
+
+
+<!-- Subsection cell -->
+
+
+<P CLASS="subsect">
+ &nbsp;3.1 Equations
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i2)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">disp</span> <span class="code_operator">:</span> <span class="code_function">g</span>(<span class="code_variable">r</span>) <span class="code_operator">*</span> <span class="code_variable">e1</span><span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{disp}\begin{pmatrix}\operatorname{g}(r)\\
+0\\
+0\end{pmatrix}\]
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i4)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">temp</span> <span class="code_operator">:</span> <span class="code_function">GRADD</span>(<span class="code_variable">disp</span>)<span class="code_endofline">$</span><BR>
+<span class="code_variable">eps</span> <span class="code_operator">:</span> <span class="code_function">trigsimp</span>(<span class="code_function">eps_voigt</span>(<span class="code_variable">temp</span> <span class="code_operator">+</span> <span class="code_function">transpose</span>(<span class="code_variable">temp</span>)) <span class="code_operator">/</span> <span class="code_number">2</span>)<span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{eps}\begin{pmatrix}\frac{d}{d r} \operatorname{g}(r)\\
+\frac{\operatorname{g}(r)}{r}\\
+\frac{\operatorname{g}(r)}{r}\\
+0\\
+0\\
+0\end{pmatrix}\]
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i5)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">C</span> <span class="code_operator">:</span> <span class="code_number">3</span> <span class="code_operator">*</span> <span class="code_variable">k</span> <span class="code_operator">*</span> <span class="code_variable">J</span> <span class="code_operator">+</span> <span class="code_number">2</span> <span class="code_operator">*</span> <span class="code_variable">mu</span> <span class="code_operator">*</span> <span class="code_variable">K</span><span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{C}\begin{pmatrix}\frac{4 mu}{3}+k & k-\frac{2 mu}{3} & k-\frac{2 mu}{3} & 0 & 0 & 0\\
+k-\frac{2 mu}{3} & \frac{4 mu}{3}+k & k-\frac{2 mu}{3} & 0 & 0 & 0\\
+k-\frac{2 mu}{3} & k-\frac{2 mu}{3} & \frac{4 mu}{3}+k & 0 & 0 & 0\\
+0 & 0 & 0 & 2 mu & 0 & 0\\
+0 & 0 & 0 & 0 & 2 mu & 0\\
+0 & 0 & 0 & 0 & 0 & 2 mu\end{pmatrix}\]
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i6)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">sig</span> <span class="code_operator">:</span> <span class="code_variable">C</span> . <span class="code_variable">eps</span><span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{sig}\begin{pmatrix}\left( \frac{4 mu}{3}+k\right) \, \left( \frac{d}{d r} \operatorname{g}(r)\right) +\frac{2 \left( k-\frac{2 mu}{3}\right)  \operatorname{g}(r)}{r}\\
+\left( k-\frac{2 mu}{3}\right) \, \left( \frac{d}{d r} \operatorname{g}(r)\right) +\frac{\left( \frac{4 mu}{3}+k\right)  \operatorname{g}(r)}{r}+\frac{\left( k-\frac{2 mu}{3}\right)  \operatorname{g}(r)}{r}\\
+\left( k-\frac{2 mu}{3}\right) \, \left( \frac{d}{d r} \operatorname{g}(r)\right) +\frac{\left( \frac{4 mu}{3}+k\right)  \operatorname{g}(r)}{r}+\frac{\left( k-\frac{2 mu}{3}\right)  \operatorname{g}(r)}{r}\\
+0\\
+0\\
+0\end{pmatrix}\]
+
+
+<!-- Subsection cell -->
+
+
+<P CLASS="subsect">
+ &nbsp;3.2 Let's find the shape of the displacement function
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i8)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">temp</span> <span class="code_operator">:</span> <span class="code_function">sig_unvoigt</span>(<span class="code_variable">sig</span>)<span class="code_endofline">$</span><BR>
+<span class="code_function">print</span>(<span class="code_function">trigsimp</span>(<span class="code_function">DIVV</span>(<span class="code_variable">temp</span>)))<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+\[\begin{pmatrix}\frac{\left( 4 mu+3 k\right) \, {{r}^{2}}\, \left( \frac{{{d}^{2}}}{d {{r}^{2}}} \operatorname{g}(r)\right) +\left( 8 mu+6 k\right)  r\, \left( \frac{d}{d r} \operatorname{g}(r)\right) +\left( -8 mu-6 k\right)  \operatorname{g}(r)}{3 {{r}^{2}}}\\
+0\\
+0\end{pmatrix} \]
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i10)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">eqn_1</span> <span class="code_operator">:</span> <span class="code_function">trigsimp</span>(<span class="code_function">DIVV</span>(<span class="code_function">sig_unvoigt</span>(<span class="code_variable">sig</span>)))[<span class="code_number">1</span>, <span class="code_number">1</span>] <span class="code_operator">=</span> <span class="code_number">0</span><span class="code_endofline">$</span><BR>
+<span class="code_variable">eqn_1</span> <span class="code_operator">:</span> <span class="code_function">trigsimp</span>(<span class="code_variable">eqn_1</span> <span class="code_operator">/</span> ((<span class="code_variable">k</span> <span class="code_operator">+</span> <span class="code_number">2</span> <span class="code_operator">*</span> <span class="code_variable">mu</span>) <span class="code_operator">/</span> <span class="code_number">3</span> <span class="code_operator">/</span> <span class="code_variable">r</span><span class="code_operator">*</span><span class="code_operator">*</span><span class="code_number">2</span>))<span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{eqn\_ 1}\frac{\left( 4 mu+3 k\right) \, {{r}^{2}}\, \left( \frac{{{d}^{2}}}{d {{r}^{2}}} \operatorname{g}(r)\right) +\left( 8 mu+6 k\right)  r\, \left( \frac{d}{d r} \operatorname{g}(r)\right) +\left( -8 mu-6 k\right)  \operatorname{g}(r)}{2 mu+k}=0\]
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i11)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_function">ode2</span>(<span class="code_variable">eqn_1</span>, <span class="code_function">g</span>(<span class="code_variable">r</span>), <span class="code_variable">r</span>)<span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{%o11} \operatorname{g}(r)=\mathit{\% k1} r+\frac{\mathit{\% k2}}{{{r}^{2}}}\]
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+The displacement function is of the form:<BR><BR> &nbsp;&nbsp;&nbsp;g(r) = A * r + B / r**2<BR><BR>where A and B are material constants<BR><BR>A and B are found by the limit conditions<BR>
+</P>
+
+
+<!-- Section cell -->
+
+
+<P CLASS="section">
+ &nbsp;4 Composite sphere - Resolution
+</P>
+
+
+<!-- Subsection cell -->
+
+
+<P CLASS="subsect">
+ &nbsp;4.1 Definitions
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+Load KUBC<BR>
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i12)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">Eps</span> <span class="code_operator">:</span> <span class="code_variable">J</span> . (<span class="code_variable">E</span> <span class="code_operator">*</span> <span class="code_variable">i</span>)<span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{Eps}\begin{pmatrix}E\\
+E\\
+E\\
+0\\
+0\\
+0\end{pmatrix}\]
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+Equations in the matrix<BR>
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i13)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">c0</span> <span class="code_operator">:</span> <span class="code_number">3</span> <span class="code_operator">*</span> <span class="code_variable">k0</span> <span class="code_operator">*</span> <span class="code_variable">J</span> <span class="code_operator">+</span> <span class="code_number">2</span> <span class="code_operator">*</span> <span class="code_variable">mu0</span> <span class="code_operator">*</span> <span class="code_variable">K</span><span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i17)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">g0</span> <span class="code_operator">:</span> <span class="code_variable">A0</span> <span class="code_operator">*</span> <span class="code_variable">r</span> <span class="code_operator">+</span> <span class="code_variable">B0</span> <span class="code_operator">/</span> <span class="code_variable">r</span><span class="code_operator">*</span><span class="code_operator">*</span><span class="code_number">2</span><span class="code_endofline">$</span><BR>
+<span class="code_variable">disp0</span> <span class="code_operator">:</span> <span class="code_variable">g0</span> <span class="code_operator">*</span> <span class="code_variable">e1</span><span class="code_endofline">$</span><BR>
+<span class="code_variable">temp</span> <span class="code_operator">:</span> <span class="code_function">GRADD</span>(<span class="code_variable">disp0</span>)<span class="code_endofline">$</span><BR>
+<span class="code_variable">eps0</span> <span class="code_operator">:</span> <span class="code_function">trigsimp</span>(<span class="code_function">eps_voigt</span>(<span class="code_variable">temp</span> <span class="code_operator">+</span> <span class="code_function">transpose</span>(<span class="code_variable">temp</span>)) <span class="code_operator">/</span> <span class="code_number">2</span>)<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i18)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">sig0</span> <span class="code_operator">:</span> <span class="code_function">trigsimp</span>(<span class="code_variable">c0</span> . <span class="code_variable">eps0</span>)<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i19)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_function">print</span>(<span class="code_string">&quot;Matrix :&quot;</span>, <span class="code_string">&quot; &nbsp;disp0 =&quot;</span>, <span class="code_variable">disp0</span>, <span class="code_string">&quot; &nbsp;sig0 =&quot;</span>, <span class="code_variable">sig0</span>)<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+\[\mbox{}\\Matrix :   disp0 = \begin{pmatrix}\mathit{A0} r+\frac{\mathit{B0}}{{{r}^{2}}}\\
+0\\
+0\end{pmatrix}   sig0 = \begin{pmatrix}\frac{3 \mathit{A0}\, \mathit{k0}\, {{r}^{3}}-4 \mathit{B0}\, \mathit{mu0}}{{{r}^{3}}}\\
+\frac{3 \mathit{A0}\, \mathit{k0}\, {{r}^{3}}+2 \mathit{B0}\, \mathit{mu0}}{{{r}^{3}}}\\
+\frac{3 \mathit{A0}\, \mathit{k0}\, {{r}^{3}}+2 \mathit{B0}\, \mathit{mu0}}{{{r}^{3}}}\\
+0\\
+0\\
+0\end{pmatrix} \]
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+Equations in the inclusion<BR>
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i20)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">c1</span> <span class="code_operator">:</span> <span class="code_number">3</span> <span class="code_operator">*</span> <span class="code_variable">k1</span> <span class="code_operator">*</span> <span class="code_variable">J</span> <span class="code_operator">+</span> <span class="code_number">2</span> <span class="code_operator">*</span> <span class="code_variable">mu1</span> <span class="code_operator">*</span> <span class="code_variable">K</span><span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i24)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">g1</span> <span class="code_operator">:</span> <span class="code_variable">A1</span> <span class="code_operator">*</span> <span class="code_variable">r</span> <span class="code_operator">+</span> <span class="code_variable">B1</span> <span class="code_operator">/</span> <span class="code_variable">r</span><span class="code_operator">*</span><span class="code_operator">*</span><span class="code_number">2</span><span class="code_endofline">$</span><BR>
+<span class="code_variable">disp1</span> <span class="code_operator">:</span> <span class="code_variable">g1</span> <span class="code_operator">*</span> <span class="code_variable">e1</span><span class="code_endofline">$</span><BR>
+<span class="code_variable">temp</span> <span class="code_operator">:</span> <span class="code_function">GRADD</span>(<span class="code_variable">disp1</span>)<span class="code_endofline">$</span><BR>
+<span class="code_variable">eps1</span> <span class="code_operator">:</span> <span class="code_function">trigsimp</span>(<span class="code_function">eps_voigt</span>(<span class="code_variable">temp</span> <span class="code_operator">+</span> <span class="code_function">transpose</span>(<span class="code_variable">temp</span>)) <span class="code_operator">/</span> <span class="code_number">2</span>)<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i25)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">sig1</span> <span class="code_operator">:</span> <span class="code_function">trigsimp</span>(<span class="code_variable">c1</span> . <span class="code_variable">eps1</span>)<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i26)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_function">print</span>(<span class="code_string">&quot;Inclusion :&quot;</span>, <span class="code_string">&quot; &nbsp;disp1 =&quot;</span>, <span class="code_variable">disp1</span>, <span class="code_string">&quot; &nbsp;sig1 =&quot;</span>, <span class="code_variable">sig1</span>)<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+\[\mbox{}\\Inclusion :   disp1 = \begin{pmatrix}\mathit{A1} r+\frac{\mathit{B1}}{{{r}^{2}}}\\
+0\\
+0\end{pmatrix}   sig1 = \begin{pmatrix}\frac{3 \mathit{A1}\, \mathit{k1}\, {{r}^{3}}-4 \mathit{B1}\, \mathit{mu1}}{{{r}^{3}}}\\
+\frac{3 \mathit{A1}\, \mathit{k1}\, {{r}^{3}}+2 \mathit{B1}\, \mathit{mu1}}{{{r}^{3}}}\\
+\frac{3 \mathit{A1}\, \mathit{k1}\, {{r}^{3}}+2 \mathit{B1}\, \mathit{mu1}}{{{r}^{3}}}\\
+0\\
+0\\
+0\end{pmatrix} \]
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+Verification: div(sig) = 0<BR>
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i28)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_function">print</span>(<span class="code_string">&quot;div(sig0) = &quot;</span>,<span class="code_function">trigsimp</span>(<span class="code_function">DIVV</span>(<span class="code_function">sig_unvoigt</span>(<span class="code_variable">sig0</span>))))<span class="code_endofline">$</span><BR>
+<span class="code_function">print</span>(<span class="code_string">&quot;div(sig1) = &quot;</span>,<span class="code_function">trigsimp</span>(<span class="code_function">DIVV</span>(<span class="code_function">sig_unvoigt</span>(<span class="code_variable">sig1</span>))))<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+\[\mbox{}\\div(sig0) =  \begin{pmatrix}0\\
+0\\
+0\end{pmatrix} \mbox{}\\div(sig1) =  \begin{pmatrix}0\\
+0\\
+0\end{pmatrix} \]
+
+
+<!-- Subsection cell -->
+
+
+<P CLASS="subsect">
+ &nbsp;4.2 Limit conditions
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+1) &nbsp;Limite on the bound (r = Rm)<BR>
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i30)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">cond1</span> <span class="code_operator">:</span> <span class="code_variable">disp0</span> <span class="code_operator">-</span> <span class="code_function">eps_unvoigt</span>(<span class="code_variable">Eps</span>) . (<span class="code_variable">r</span> <span class="code_operator">*</span> <span class="code_variable">e1</span>)<span class="code_endofline">$</span><BR>
+<span class="code_variable">eqn_1</span><span class="code_operator">:</span> <span class="code_function">subst</span>([<span class="code_variable">r</span><span class="code_operator">=</span><span class="code_variable">Rm</span>], <span class="code_function">trigsimp</span>(<span class="code_variable">cond1</span>[<span class="code_number">1</span>, <span class="code_number">1</span>] <span class="code_operator">*</span> <span class="code_variable">r</span><span class="code_operator">*</span><span class="code_operator">*</span><span class="code_number">2</span>) <span class="code_operator">=</span> <span class="code_number">0</span>)<span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{eqn\_ 1}\left( \mathit{A0}-E\right) \, {{\mathit{Rm}}^{3}}+\mathit{B0}=0\]
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+2) &nbsp;Interface : Matrix / Inclusion &nbsp;(r = Ri)<BR><BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Continuity of sig<BR>
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i32)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">cond2</span> <span class="code_operator">:</span> <span class="code_function">trigsimp</span>(<span class="code_function">sig_unvoigt</span>(<span class="code_variable">sig1</span> <span class="code_operator">-</span> <span class="code_variable">sig0</span>) . <span class="code_variable">e1</span>)<span class="code_endofline">$</span><BR>
+<span class="code_variable">eqn_2</span> <span class="code_operator">:</span> <span class="code_function">subst</span>([<span class="code_variable">r</span><span class="code_operator">=</span><span class="code_variable">Ri</span>], <span class="code_variable">cond2</span>[<span class="code_number">1</span>, <span class="code_number">1</span>] <span class="code_operator">*</span> <span class="code_variable">r</span><span class="code_operator">*</span><span class="code_operator">*</span><span class="code_number">3</span> <span class="code_operator">=</span> <span class="code_number">0</span>)<span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{eqn\_ 2}-4 \mathit{B1}\, \mathit{mu1}+4 \mathit{B0}\, \mathit{mu0}+{{\mathit{Ri}}^{3}}\, \left( 3 \mathit{A1}\, \mathit{k1}-3 \mathit{A0}\, \mathit{k0}\right) =0\]
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+3) &nbsp;Interface : Matrice / Inclusion (r = Ri)<BR><BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Continuity of disp<BR>
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i34)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">cond3</span> <span class="code_operator">:</span> <span class="code_function">trigsimp</span>(<span class="code_variable">disp1</span> <span class="code_operator">-</span> <span class="code_variable">disp0</span>)<span class="code_endofline">$</span><BR>
+<span class="code_variable">eqn_3</span> <span class="code_operator">:</span> <span class="code_function">subst</span>([<span class="code_variable">r</span><span class="code_operator">=</span><span class="code_variable">Ri</span>], <span class="code_variable">cond3</span>[<span class="code_number">1</span>, <span class="code_number">1</span>] <span class="code_operator">*</span> <span class="code_variable">r</span><span class="code_operator">*</span><span class="code_operator">*</span><span class="code_number">2</span> <span class="code_operator">=</span> <span class="code_number">0</span>)<span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{eqn\_ 3}\left( \mathit{A1}-\mathit{A0}\right) \, {{\mathit{Ri}}^{3}}+\mathit{B1}-\mathit{B0}=0\]
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+4) &nbsp;Limite à r = 0<BR>
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i36)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">cond4</span> <span class="code_operator">:</span> <span class="code_function">limit</span>(<span class="code_variable">disp1</span> <span class="code_operator">*</span> <span class="code_variable">r</span><span class="code_operator">*</span><span class="code_operator">*</span><span class="code_number">2</span>, <span class="code_variable">r</span>, <span class="code_number">0</span>)<span class="code_endofline">$</span><BR>
+<span class="code_variable">eqn_4</span> <span class="code_operator">:</span> <span class="code_variable">cond4</span>[<span class="code_number">1</span>, <span class="code_number">1</span>] <span class="code_operator">=</span> <span class="code_number">0</span><span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{eqn\_ 4}\mathit{B1}=0\]
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+Sumerizing the equations<BR>
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i40)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_function">print</span>(<span class="code_string">&quot;1) &nbsp;&quot;</span>, <span class="code_variable">eqn_1</span>)<span class="code_endofline">$</span><BR>
+<span class="code_function">print</span>(<span class="code_string">&quot;2) &nbsp;&quot;</span>, <span class="code_variable">eqn_2</span>)<span class="code_endofline">$</span><BR>
+<span class="code_function">print</span>(<span class="code_string">&quot;3) &nbsp;&quot;</span>, <span class="code_variable">eqn_3</span>)<span class="code_endofline">$</span><BR>
+<span class="code_function">print</span>(<span class="code_string">&quot;4) &nbsp;&quot;</span>, <span class="code_variable">eqn_4</span>)<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+\[\mbox{}\\1)   \left( \mathit{A0}-E\right) \, {{\mathit{Rm}}^{3}}+\mathit{B0}=0 \mbox{}\\2)   -4 \mathit{B1}\, \mathit{mu1}+4 \mathit{B0}\, \mathit{mu0}+{{\mathit{Ri}}^{3}}\, \left( 3 \mathit{A1}\, \mathit{k1}-3 \mathit{A0}\, \mathit{k0}\right) =0 \mbox{}\\3)   \left( \mathit{A1}-\mathit{A0}\right) \, {{\mathit{Ri}}^{3}}+\mathit{B1}-\mathit{B0}=0 \mbox{}\\4)   \mathit{B1}=0 \]
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+Equation solving<BR>
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i41)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">sol</span><span class="code_operator">:</span> <span class="code_function">linsolve</span>([<span class="code_variable">eqn_1</span>, <span class="code_variable">eqn_2</span>, <span class="code_variable">eqn_3</span>, <span class="code_variable">eqn_4</span>], [<span class="code_variable">A0</span>, <span class="code_variable">B0</span>, <span class="code_variable">A1</span>, <span class="code_variable">B1</span>])<span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{sol}[\mathit{A0}=\frac{E\, {{\mathit{Rm}}^{3}}\, \left( 4 \mathit{mu0}+3 \mathit{k1}\right) }{{{\mathit{Rm}}^{3}}\, \left( 4 \mathit{mu0}+3 \mathit{k1}\right) -3 {{\mathit{Ri}}^{3}}\, \mathit{k1}+3 {{\mathit{Ri}}^{3}}\, \mathit{k0}},\mathit{B0}=-\frac{E\, {{\mathit{Rm}}^{3}}\, \left( 3 {{\mathit{Ri}}^{3}}\, \mathit{k1}-3 {{\mathit{Ri}}^{3}}\, \mathit{k0}\right) }{{{\mathit{Rm}}^{3}}\, \left( 4 \mathit{mu0}+3 \mathit{k1}\right) -3 {{\mathit{Ri}}^{3}}\, \mathit{k1}+3 {{\mathit{Ri}}^{3}}\, \mathit{k0}},\mathit{A1}=\frac{E\, {{\mathit{Rm}}^{3}}\, \left( 4 \mathit{mu0}+3 \mathit{k0}\right) }{{{\mathit{Rm}}^{3}}\, \left( 4 \mathit{mu0}+3 \mathit{k1}\right) -3 {{\mathit{Ri}}^{3}}\, \mathit{k1}+3 {{\mathit{Ri}}^{3}}\, \mathit{k0}},\mathit{B1}=0]\]
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i45)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">A0</span> <span class="code_operator">:</span> <span class="code_function">ratsimp</span>(<span class="code_function">subst</span>(<span class="code_variable">sol</span>, <span class="code_variable">A0</span>))<span class="code_endofline">;</span><BR>
+<span class="code_variable">B0</span> <span class="code_operator">:</span> <span class="code_function">ratsimp</span>(<span class="code_function">subst</span>(<span class="code_variable">sol</span>, <span class="code_variable">B0</span>))<span class="code_endofline">;</span><BR>
+<span class="code_variable">A1</span> <span class="code_operator">:</span> <span class="code_function">ratsimp</span>(<span class="code_function">subst</span>(<span class="code_variable">sol</span>, <span class="code_variable">A1</span>))<span class="code_endofline">;</span><BR>
+<span class="code_variable">B1</span> <span class="code_operator">:</span> <span class="code_function">ratsimp</span>(<span class="code_function">subst</span>(<span class="code_variable">sol</span>, <span class="code_variable">B1</span>))<span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{A0}\frac{4 E\, {{\mathit{Rm}}^{3}}\, \mathit{mu0}+3 E\, {{\mathit{Rm}}^{3}}\, \mathit{k1}}{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+\left( 3 {{\mathit{Rm}}^{3}}-3 {{\mathit{Ri}}^{3}}\right) \, \mathit{k1}+3 {{\mathit{Ri}}^{3}}\, \mathit{k0}}\]
+\[\tag{B0}-\frac{3 E\, {{\mathit{Ri}}^{3}}\, {{\mathit{Rm}}^{3}}\, \mathit{k1}-3 E\, {{\mathit{Ri}}^{3}}\, {{\mathit{Rm}}^{3}}\, \mathit{k0}}{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+\left( 3 {{\mathit{Rm}}^{3}}-3 {{\mathit{Ri}}^{3}}\right) \, \mathit{k1}+3 {{\mathit{Ri}}^{3}}\, \mathit{k0}}\]
+\[\tag{A1}\frac{4 E\, {{\mathit{Rm}}^{3}}\, \mathit{mu0}+3 E\, {{\mathit{Rm}}^{3}}\, \mathit{k0}}{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+\left( 3 {{\mathit{Rm}}^{3}}-3 {{\mathit{Ri}}^{3}}\right) \, \mathit{k1}+3 {{\mathit{Ri}}^{3}}\, \mathit{k0}}\]
+\[\tag{B1}0\]
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+Results<BR>
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i46)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_function">print</span>(<span class="code_string">&quot; &nbsp;disp0 = &quot;</span>, <span class="code_function">factor</span>(<span class="code_function">ratsimp</span>(<span class="code_function">subst</span>([<span class="code_variable">Ri</span><span class="code_operator">*</span><span class="code_operator">*</span><span class="code_number">3</span><span class="code_operator">=</span><span class="code_variable">Rm</span><span class="code_operator">*</span><span class="code_operator">*</span><span class="code_number">3</span> <span class="code_operator">*</span> <span class="code_variable">f</span>], <span class="code_function">ev</span>(<span class="code_variable">disp0</span>)))),<BR>
+ &nbsp;&nbsp;&nbsp;&nbsp; <span class="code_string">&quot; &nbsp;eps0 = &quot;</span>, <span class="code_function">factor</span>(<span class="code_function">ratsimp</span>(<span class="code_function">subst</span>([<span class="code_variable">Ri</span><span class="code_operator">=</span><span class="code_variable">Rm</span> <span class="code_operator">*</span> <span class="code_variable">f</span><span class="code_operator">*</span><span class="code_operator">*</span>(<span class="code_number">1</span><span class="code_operator">/</span><span class="code_number">3</span>)], <span class="code_function">ev</span>(<span class="code_variable">eps0</span>)))),<BR>
+ &nbsp;&nbsp;&nbsp;&nbsp; <span class="code_string">&quot; &nbsp;sig0 = &quot;</span>, <span class="code_function">factor</span>(<span class="code_function">ratsimp</span>(<span class="code_function">subst</span>([<span class="code_variable">Ri</span><span class="code_operator">=</span><span class="code_variable">Rm</span> <span class="code_operator">*</span> <span class="code_variable">f</span><span class="code_operator">*</span><span class="code_operator">*</span>(<span class="code_number">1</span><span class="code_operator">/</span><span class="code_number">3</span>)], <span class="code_function">ev</span>(<span class="code_variable">sig0</span>))))<BR>
+ &nbsp;&nbsp; )<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+\[\mbox{}\\  disp0 =  \begin{pmatrix}\frac{E\, \left( 4 \mathit{mu0}\, {{r}^{3}}+3 \mathit{k1}\, {{r}^{3}}-3 {{\mathit{Rm}}^{3}} f\, \mathit{k1}+3 {{\mathit{Rm}}^{3}} f\, \mathit{k0}\right) }{\left( 4 \mathit{mu0}-3 f\, \mathit{k1}+3 \mathit{k1}+3 f\, \mathit{k0}\right) \, {{r}^{2}}}\\
+0\\
+0\end{pmatrix}   eps0 =  \begin{pmatrix}\frac{E\, \left( 4 \mathit{mu0}\, {{r}^{3}}+3 \mathit{k1}\, {{r}^{3}}+6 {{\mathit{Rm}}^{3}} f\, \mathit{k1}-6 {{\mathit{Rm}}^{3}} f\, \mathit{k0}\right) }{\left( 4 \mathit{mu0}-3 f\, \mathit{k1}+3 \mathit{k1}+3 f\, \mathit{k0}\right) \, {{r}^{3}}}\\
+\frac{E\, \left( 4 \mathit{mu0}\, {{r}^{3}}+3 \mathit{k1}\, {{r}^{3}}-3 {{\mathit{Rm}}^{3}} f\, \mathit{k1}+3 {{\mathit{Rm}}^{3}} f\, \mathit{k0}\right) }{\left( 4 \mathit{mu0}-3 f\, \mathit{k1}+3 \mathit{k1}+3 f\, \mathit{k0}\right) \, {{r}^{3}}}\\
+\frac{E\, \left( 4 \mathit{mu0}\, {{r}^{3}}+3 \mathit{k1}\, {{r}^{3}}-3 {{\mathit{Rm}}^{3}} f\, \mathit{k1}+3 {{\mathit{Rm}}^{3}} f\, \mathit{k0}\right) }{\left( 4 \mathit{mu0}-3 f\, \mathit{k1}+3 \mathit{k1}+3 f\, \mathit{k0}\right) \, {{r}^{3}}}\\
+0\\
+0\\
+0\end{pmatrix}   sig0 =  \begin{pmatrix}\frac{3 E\, \left( 4 \mathit{k0}\, \mathit{mu0}\, {{r}^{3}}+3 \mathit{k0}\, \mathit{k1}\, {{r}^{3}}+4 {{\mathit{Rm}}^{3}} f\, \mathit{k1}\, \mathit{mu0}-4 {{\mathit{Rm}}^{3}} f\, \mathit{k0}\, \mathit{mu0}\right) }{\left( 4 \mathit{mu0}-3 f\, \mathit{k1}+3 \mathit{k1}+3 f\, \mathit{k0}\right) \, {{r}^{3}}}\\
+\frac{3 E\, \left( 4 \mathit{k0}\, \mathit{mu0}\, {{r}^{3}}+3 \mathit{k0}\, \mathit{k1}\, {{r}^{3}}-2 {{\mathit{Rm}}^{3}} f\, \mathit{k1}\, \mathit{mu0}+2 {{\mathit{Rm}}^{3}} f\, \mathit{k0}\, \mathit{mu0}\right) }{\left( 4 \mathit{mu0}-3 f\, \mathit{k1}+3 \mathit{k1}+3 f\, \mathit{k0}\right) \, {{r}^{3}}}\\
+\frac{3 E\, \left( 4 \mathit{k0}\, \mathit{mu0}\, {{r}^{3}}+3 \mathit{k0}\, \mathit{k1}\, {{r}^{3}}-2 {{\mathit{Rm}}^{3}} f\, \mathit{k1}\, \mathit{mu0}+2 {{\mathit{Rm}}^{3}} f\, \mathit{k0}\, \mathit{mu0}\right) }{\left( 4 \mathit{mu0}-3 f\, \mathit{k1}+3 \mathit{k1}+3 f\, \mathit{k0}\right) \, {{r}^{3}}}\\
+0\\
+0\\
+0\end{pmatrix} \]
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i47)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_function">print</span>(<span class="code_string">&quot; &nbsp;disp1 = &quot;</span>, <span class="code_function">factor</span>(<span class="code_function">ratsimp</span>(<span class="code_function">subst</span>([<span class="code_variable">Ri</span><span class="code_operator">*</span><span class="code_operator">*</span><span class="code_number">3</span><span class="code_operator">=</span><span class="code_variable">Rm</span><span class="code_operator">*</span><span class="code_operator">*</span><span class="code_number">3</span> <span class="code_operator">*</span> <span class="code_variable">f</span>], <span class="code_function">ev</span>(<span class="code_variable">disp1</span>)))),<BR>
+ &nbsp;&nbsp;&nbsp;&nbsp; <span class="code_string">&quot; &nbsp;eps1 = &quot;</span>, <span class="code_function">factor</span>(<span class="code_function">ratsimp</span>(<span class="code_function">subst</span>([<span class="code_variable">Ri</span><span class="code_operator">*</span><span class="code_operator">*</span><span class="code_number">3</span><span class="code_operator">=</span><span class="code_variable">Rm</span><span class="code_operator">*</span><span class="code_operator">*</span><span class="code_number">3</span> <span class="code_operator">*</span> <span class="code_variable">f</span>], <span class="code_function">ev</span>(<span class="code_variable">eps1</span>)))),<BR>
+ &nbsp;&nbsp;&nbsp;&nbsp; <span class="code_string">&quot; &nbsp;sig1 = &quot;</span>, <span class="code_function">factor</span>(<span class="code_function">ratsimp</span>(<span class="code_function">subst</span>([<span class="code_variable">Ri</span><span class="code_operator">*</span><span class="code_operator">*</span><span class="code_number">3</span><span class="code_operator">=</span><span class="code_variable">Rm</span><span class="code_operator">*</span><span class="code_operator">*</span><span class="code_number">3</span> <span class="code_operator">*</span> <span class="code_variable">f</span>], <span class="code_function">ev</span>(<span class="code_variable">sig1</span>))))<BR>
+ &nbsp;&nbsp; )<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+\[\mbox{}\\  disp1 =  \begin{pmatrix}\frac{E\, \left( 4 \mathit{mu0}+3 \mathit{k0}\right)  r}{4 \mathit{mu0}-3 f\, \mathit{k1}+3 \mathit{k1}+3 f\, \mathit{k0}}\\
+0\\
+0\end{pmatrix}   eps1 =  \begin{pmatrix}\frac{E\, \left( 4 \mathit{mu0}+3 \mathit{k0}\right) }{4 \mathit{mu0}-3 f\, \mathit{k1}+3 \mathit{k1}+3 f\, \mathit{k0}}\\
+\frac{E\, \left( 4 \mathit{mu0}+3 \mathit{k0}\right) }{4 \mathit{mu0}-3 f\, \mathit{k1}+3 \mathit{k1}+3 f\, \mathit{k0}}\\
+\frac{E\, \left( 4 \mathit{mu0}+3 \mathit{k0}\right) }{4 \mathit{mu0}-3 f\, \mathit{k1}+3 \mathit{k1}+3 f\, \mathit{k0}}\\
+0\\
+0\\
+0\end{pmatrix}   sig1 =  \begin{pmatrix}\frac{3 E\, \mathit{k1}\, \left( 4 \mathit{mu0}+3 \mathit{k0}\right) }{4 \mathit{mu0}-3 f\, \mathit{k1}+3 \mathit{k1}+3 f\, \mathit{k0}}\\
+\frac{3 E\, \mathit{k1}\, \left( 4 \mathit{mu0}+3 \mathit{k0}\right) }{4 \mathit{mu0}-3 f\, \mathit{k1}+3 \mathit{k1}+3 f\, \mathit{k0}}\\
+\frac{3 E\, \mathit{k1}\, \left( 4 \mathit{mu0}+3 \mathit{k0}\right) }{4 \mathit{mu0}-3 f\, \mathit{k1}+3 \mathit{k1}+3 f\, \mathit{k0}}\\
+0\\
+0\\
+0\end{pmatrix} \]
+
+
+<!-- Subsection cell -->
+
+
+<P CLASS="subsect">
+ &nbsp;4.3 Effective stifness calculation
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+Ici on veur résoudre l'équation &lt;g,s'&gt; = As'*G0<BR>
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+1) &nbsp;Moyenne sur l'inclusion<BR>
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i51)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">temp</span> <span class="code_operator">:</span> <span class="code_function">subst</span>([<span class="code_variable">r</span><span class="code_operator">=</span><span class="code_variable">Ri</span>], <span class="code_variable">Psc</span> . <span class="code_function">ev</span>(<span class="code_variable">disp1</span>)) . <span class="code_function">transpose</span>(<span class="code_variable">eR</span>) <span class="code_operator">*</span> <span class="code_variable">Ri</span><span class="code_operator">*</span><span class="code_operator">*</span><span class="code_number">2</span> <span class="code_operator">*</span> <span class="code_function">sin</span>(<span class="code_variable">t</span>)<span class="code_endofline">$</span><BR>
+<span class="code_variable">temp</span> <span class="code_operator">:</span> <span class="code_function">integrate</span>(<span class="code_variable">temp</span>, <span class="code_variable">t</span>, <span class="code_number">0</span>, <span class="code_variable">%pi</span>)<span class="code_endofline">$</span><BR>
+<span class="code_variable">temp</span> <span class="code_operator">:</span> <span class="code_function">integrate</span>(<span class="code_variable">temp</span>, <span class="code_variable">h</span>, <span class="code_number">0</span>, <span class="code_number">2</span><span class="code_operator">*</span><span class="code_variable">%pi</span>)<span class="code_endofline">$</span><BR>
+<span class="code_variable">Eps1</span> <span class="code_operator">:</span> <span class="code_variable">temp</span> <span class="code_operator">/</span> (<span class="code_number">4</span> <span class="code_operator">/</span> <span class="code_number">3</span> <span class="code_operator">*</span> <span class="code_variable">%pi</span> <span class="code_operator">*</span> <span class="code_variable">Ri</span><span class="code_operator">*</span><span class="code_operator">*</span><span class="code_number">3</span>)<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i52)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">Eps1</span> <span class="code_operator">:</span> <span class="code_function">eps_voigt</span>(<span class="code_variable">Eps1</span>)<span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{Eps1}\begin{pmatrix}\frac{4 E\, {{\mathit{Rm}}^{3}}\, \mathit{mu0}+3 E\, {{\mathit{Rm}}^{3}}\, \mathit{k0}}{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+\left( 3 {{\mathit{Rm}}^{3}}-3 {{\mathit{Ri}}^{3}}\right) \, \mathit{k1}+3 {{\mathit{Ri}}^{3}}\, \mathit{k0}}\\
+\frac{4 E\, {{\mathit{Rm}}^{3}}\, \mathit{mu0}+3 E\, {{\mathit{Rm}}^{3}}\, \mathit{k0}}{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+\left( 3 {{\mathit{Rm}}^{3}}-3 {{\mathit{Ri}}^{3}}\right) \, \mathit{k1}+3 {{\mathit{Ri}}^{3}}\, \mathit{k0}}\\
+\frac{4 E\, {{\mathit{Rm}}^{3}}\, \mathit{mu0}+3 E\, {{\mathit{Rm}}^{3}}\, \mathit{k0}}{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+\left( 3 {{\mathit{Rm}}^{3}}-3 {{\mathit{Ri}}^{3}}\right) \, \mathit{k1}+3 {{\mathit{Ri}}^{3}}\, \mathit{k0}}\\
+0\\
+0\\
+0\end{pmatrix}\]
+
+
+<!-- Subsection cell -->
+
+
+<P CLASS="subsect">
+ &nbsp;4.4 Results
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+Careful! We focus only on the spherical part.<BR><BR>The deviatoric part can't be deduced only from this example<BR>
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i53)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">As</span> <span class="code_operator">:</span> <span class="code_function">diag</span>(<span class="code_function">transpose</span>(<span class="code_function">trigsimp</span>(<span class="code_variable">Eps1</span> <span class="code_operator">/</span> <span class="code_variable">E</span>))[<span class="code_number">1</span>])<span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{As}\begin{pmatrix}\frac{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+3 {{\mathit{Rm}}^{3}}\, \mathit{k0}}{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+\left( 3 {{\mathit{Rm}}^{3}}-3 {{\mathit{Ri}}^{3}}\right) \, \mathit{k1}+3 {{\mathit{Ri}}^{3}}\, \mathit{k0}} & 0 & 0 & 0 & 0 & 0\\
+0 & \frac{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+3 {{\mathit{Rm}}^{3}}\, \mathit{k0}}{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+\left( 3 {{\mathit{Rm}}^{3}}-3 {{\mathit{Ri}}^{3}}\right) \, \mathit{k1}+3 {{\mathit{Ri}}^{3}}\, \mathit{k0}} & 0 & 0 & 0 & 0\\
+0 & 0 & \frac{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+3 {{\mathit{Rm}}^{3}}\, \mathit{k0}}{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+\left( 3 {{\mathit{Rm}}^{3}}-3 {{\mathit{Ri}}^{3}}\right) \, \mathit{k1}+3 {{\mathit{Ri}}^{3}}\, \mathit{k0}} & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0\end{pmatrix}\]
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i54)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">c_eff</span> <span class="code_operator">:</span> <span class="code_function">subst</span>([<span class="code_variable">Ri</span> <span class="code_operator">=</span> (<span class="code_variable">f</span><span class="code_operator">*</span><span class="code_operator">*</span>(<span class="code_number">1</span><span class="code_operator">/</span><span class="code_number">3</span>) <span class="code_operator">*</span> <span class="code_variable">Rm</span>)], <span class="code_variable">c0</span> <span class="code_operator">+</span> <span class="code_variable">f</span> <span class="code_operator">*</span> (<span class="code_variable">c1</span> <span class="code_operator">-</span> <span class="code_variable">c0</span>) . <span class="code_variable">As</span>)<span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{c\_ eff}\begin{pmatrix}\frac{f\, \left( 4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+3 {{\mathit{Rm}}^{3}}\, \mathit{k0}\right) \, \left( \frac{4 \mathit{mu1}}{3}-\frac{4 \mathit{mu0}}{3}+\mathit{k1}-\mathit{k0}\right) }{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+\left( 3 {{\mathit{Rm}}^{3}}-3 {{\mathit{Rm}}^{3}} f\right) \, \mathit{k1}+3 {{\mathit{Rm}}^{3}} f\, \mathit{k0}}+\frac{4 \mathit{mu0}}{3}+\mathit{k0} & \frac{f\, \left( 4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+3 {{\mathit{Rm}}^{3}}\, \mathit{k0}\right) \, \left( -\frac{2 \mathit{mu1}}{3}+\frac{2 \mathit{mu0}}{3}+\mathit{k1}-\mathit{k0}\right) }{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+\left( 3 {{\mathit{Rm}}^{3}}-3 {{\mathit{Rm}}^{3}} f\right) \, \mathit{k1}+3 {{\mathit{Rm}}^{3}} f\, \mathit{k0}}-\frac{2 \mathit{mu0}}{3}+\mathit{k0} & \frac{f\, \left( 4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+3 {{\mathit{Rm}}^{3}}\, \mathit{k0}\right) \, \left( -\frac{2 \mathit{mu1}}{3}+\frac{2 \mathit{mu0}}{3}+\mathit{k1}-\mathit{k0}\right) }{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+\left( 3 {{\mathit{Rm}}^{3}}-3 {{\mathit{Rm}}^{3}} f\right) \, \mathit{k1}+3 {{\mathit{Rm}}^{3}} f\, \mathit{k0}}-\frac{2 \mathit{mu0}}{3}+\mathit{k0} & 0 & 0 & 0\\
+\frac{f\, \left( 4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+3 {{\mathit{Rm}}^{3}}\, \mathit{k0}\right) \, \left( -\frac{2 \mathit{mu1}}{3}+\frac{2 \mathit{mu0}}{3}+\mathit{k1}-\mathit{k0}\right) }{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+\left( 3 {{\mathit{Rm}}^{3}}-3 {{\mathit{Rm}}^{3}} f\right) \, \mathit{k1}+3 {{\mathit{Rm}}^{3}} f\, \mathit{k0}}-\frac{2 \mathit{mu0}}{3}+\mathit{k0} & \frac{f\, \left( 4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+3 {{\mathit{Rm}}^{3}}\, \mathit{k0}\right) \, \left( \frac{4 \mathit{mu1}}{3}-\frac{4 \mathit{mu0}}{3}+\mathit{k1}-\mathit{k0}\right) }{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+\left( 3 {{\mathit{Rm}}^{3}}-3 {{\mathit{Rm}}^{3}} f\right) \, \mathit{k1}+3 {{\mathit{Rm}}^{3}} f\, \mathit{k0}}+\frac{4 \mathit{mu0}}{3}+\mathit{k0} & \frac{f\, \left( 4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+3 {{\mathit{Rm}}^{3}}\, \mathit{k0}\right) \, \left( -\frac{2 \mathit{mu1}}{3}+\frac{2 \mathit{mu0}}{3}+\mathit{k1}-\mathit{k0}\right) }{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+\left( 3 {{\mathit{Rm}}^{3}}-3 {{\mathit{Rm}}^{3}} f\right) \, \mathit{k1}+3 {{\mathit{Rm}}^{3}} f\, \mathit{k0}}-\frac{2 \mathit{mu0}}{3}+\mathit{k0} & 0 & 0 & 0\\
+\frac{f\, \left( 4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+3 {{\mathit{Rm}}^{3}}\, \mathit{k0}\right) \, \left( -\frac{2 \mathit{mu1}}{3}+\frac{2 \mathit{mu0}}{3}+\mathit{k1}-\mathit{k0}\right) }{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+\left( 3 {{\mathit{Rm}}^{3}}-3 {{\mathit{Rm}}^{3}} f\right) \, \mathit{k1}+3 {{\mathit{Rm}}^{3}} f\, \mathit{k0}}-\frac{2 \mathit{mu0}}{3}+\mathit{k0} & \frac{f\, \left( 4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+3 {{\mathit{Rm}}^{3}}\, \mathit{k0}\right) \, \left( -\frac{2 \mathit{mu1}}{3}+\frac{2 \mathit{mu0}}{3}+\mathit{k1}-\mathit{k0}\right) }{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+\left( 3 {{\mathit{Rm}}^{3}}-3 {{\mathit{Rm}}^{3}} f\right) \, \mathit{k1}+3 {{\mathit{Rm}}^{3}} f\, \mathit{k0}}-\frac{2 \mathit{mu0}}{3}+\mathit{k0} & \frac{f\, \left( 4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+3 {{\mathit{Rm}}^{3}}\, \mathit{k0}\right) \, \left( \frac{4 \mathit{mu1}}{3}-\frac{4 \mathit{mu0}}{3}+\mathit{k1}-\mathit{k0}\right) }{4 {{\mathit{Rm}}^{3}}\, \mathit{mu0}+\left( 3 {{\mathit{Rm}}^{3}}-3 {{\mathit{Rm}}^{3}} f\right) \, \mathit{k1}+3 {{\mathit{Rm}}^{3}} f\, \mathit{k0}}+\frac{4 \mathit{mu0}}{3}+\mathit{k0} & 0 & 0 & 0\\
+0 & 0 & 0 & 2 \mathit{mu0} & 0 & 0\\
+0 & 0 & 0 & 0 & 2 \mathit{mu0} & 0\\
+0 & 0 & 0 & 0 & 0 & 2 \mathit{mu0}\end{pmatrix}\]
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+Functions<BR>
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i55)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">fParams</span> <span class="code_operator">:</span> [<span class="code_variable">k0</span><span class="code_operator">=</span><span class="code_variable">_k0</span>, <span class="code_variable">mu0</span><span class="code_operator">=</span><span class="code_variable">_mu0</span>, <span class="code_variable">k1</span><span class="code_operator">=</span><span class="code_variable">_k1</span>, <span class="code_variable">mu1</span><span class="code_operator">=</span><span class="code_variable">_mu1</span>, <span class="code_variable">f</span><span class="code_operator">=</span><span class="code_variable">_f</span>]<span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{fParams}[\mathit{k0}=\_ k0,\mathit{mu0}=\_ mu0,\mathit{k1}=\_ k1,\mathit{mu1}=\_ mu1,f=\_ f]\]
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i58)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">k_eff_expr</span> <span class="code_operator">:</span> <span class="code_function">trigsimp</span>(<span class="code_variable">c_eff</span> . <span class="code_variable">J</span>)[<span class="code_number">1</span>, <span class="code_number">1</span>]<span class="code_endofline">$</span><BR>
+<span class="code_function">k_eff</span>(<span class="code_variable">_k0</span>, <span class="code_variable">_mu0</span>, <span class="code_variable">_k1</span>, <span class="code_variable">_f</span>) <span class="code_operator">:</span><span class="code_operator">=</span> <span class="code_function">ev</span>(<span class="code_function">subst</span>(<span class="code_variable">fParams</span>, <span class="code_variable">k_eff_expr</span>))<span class="code_endofline">$</span><BR>
+<span class="code_function">print</span>(<span class="code_string">&quot;k_eff =&quot;</span>, <span class="code_function">k_eff</span>(<span class="code_variable">k0</span>, <span class="code_variable">mu0</span>, <span class="code_variable">k1</span>, <span class="code_variable">f</span>))<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+\[\mbox{}\\k\_ eff = \frac{\left( 4 f\, \mathit{k1}+\left( 4-4 f\right) \, \mathit{k0}\right) \, \mathit{mu0}+3 \mathit{k0}\, \mathit{k1}}{4 \mathit{mu0}+\left( 3-3 f\right) \, \mathit{k1}+3 f\, \mathit{k0}} \]
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i61)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">mu_eff_expr</span> <span class="code_operator">:</span> <span class="code_function">trigsimp</span>(<span class="code_function">limit</span>((<span class="code_variable">c_eff</span> . <span class="code_variable">K</span>) <span class="code_operator">/</span> (<span class="code_variable">K</span> <span class="code_operator">+</span> <span class="code_variable">e</span>), <span class="code_variable">e</span>, <span class="code_number">0</span>) <span class="code_operator">/</span> <span class="code_number">2</span>)[<span class="code_number">1</span>, <span class="code_number">1</span>]<span class="code_endofline">$</span><BR>
+<span class="code_function">mu_eff</span>(<span class="code_variable">_k0</span>, <span class="code_variable">_mu0</span>, <span class="code_variable">_k1</span>, <span class="code_variable">_mu1</span>, <span class="code_variable">_f</span>) <span class="code_operator">:</span><span class="code_operator">=</span> <span class="code_function">ev</span>(<span class="code_function">subst</span>(<span class="code_variable">fParams</span>, <span class="code_variable">mu_eff_expr</span>))<span class="code_endofline">$</span><BR>
+<span class="code_function">print</span>(<span class="code_string">&quot;mu_eff =&quot;</span>, <span class="code_function">mu_eff</span>(<span class="code_variable">k0</span>, <span class="code_variable">mu0</span>, <span class="code_variable">k1</span>, <span class="code_variable">mu1</span>, <span class="code_variable">f</span>))<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+\[\mbox{}\\mu\_ eff = \frac{\left( 4 f\, \mathit{mu0}+3 f\, \mathit{k0}\right) \, \mathit{mu1}+\left( 4-4 f\right) \, {{\mathit{mu0}}^{2}}+\left( 3-3 f\right) \, \mathit{k1}\, \mathit{mu0}}{4 \mathit{mu0}+\left( 3-3 f\right) \, \mathit{k1}+3 f\, \mathit{k0}} \]
+
+
+<!-- Subsection cell -->
+
+
+<P CLASS="subsect">
+ &nbsp;4.5 Verifications
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i63)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_function">trigsimp</span>(<span class="code_function">k_eff</span>(<span class="code_variable">k0</span>, <span class="code_variable">mu0</span>, <span class="code_variable">k1</span>, <span class="code_number">0</span>))<span class="code_endofline">;</span><BR>
+<span class="code_function">trigsimp</span>(<span class="code_function">mu_eff</span>(<span class="code_variable">k0</span>, <span class="code_variable">mu0</span>, <span class="code_variable">k1</span>, <span class="code_variable">mu1</span>, <span class="code_number">0</span>))<span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{%o62} \mathit{k0}\]
+\[\tag{%o63} \mathit{mu0}\]
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i65)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_function">trigsimp</span>(<span class="code_function">k_eff</span>(<span class="code_variable">k0</span>, <span class="code_variable">mu0</span>, <span class="code_variable">k1</span>, <span class="code_number">1</span>))<span class="code_endofline">;</span><BR>
+<span class="code_function">trigsimp</span>(<span class="code_function">mu_eff</span>(<span class="code_variable">k0</span>, <span class="code_variable">mu0</span>, <span class="code_variable">k1</span>, <span class="code_variable">mu1</span>, <span class="code_number">1</span>))<span class="code_endofline">;</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{%o64} \mathit{k1}\]
+\[\tag{%o65} \mathit{mu1}\]
+
+
+<!-- Subsection cell -->
+
+
+<P CLASS="subsect">
+ &nbsp;4.6 Applications - Examples
+</P>
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+Contrast = 10<BR>
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i67)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">mu0_list</span> <span class="code_operator">:</span> [<span class="code_number">1e</span><span class="code_operator">-</span><span class="code_number">2</span>, <span class="code_number">1e</span><span class="code_operator">-</span><span class="code_number">1</span>, <span class="code_number">1</span>, <span class="code_number">1e1</span>, <span class="code_number">1e2</span>]<span class="code_endofline">$</span><BR>
+<span class="code_function">wxplot2d</span>(<BR>
+ &nbsp;&nbsp; <span class="code_function">k_eff</span>(<span class="code_number">1</span>, <span class="code_variable">mu0_list</span>, <span class="code_number">10</span>, <span class="code_variable">f</span>),<BR>
+ &nbsp;&nbsp; [<span class="code_variable">f</span>, <span class="code_number">0</span>, <span class="code_number">1</span>],<BR>
+ &nbsp;&nbsp; [<span class="code_variable">gnuplot_preamble</span>, <span class="code_string">&quot;set key on inside left top&quot;</span>],<BR>
+ &nbsp;&nbsp; <span class="code_function">append</span>([<span class="code_variable">legend</span>], <span class="code_function">makelist</span>(<span class="code_function">concat</span>(<span class="code_string">&quot;mu0 = &quot;</span>, <span class="code_variable">s</span>), <span class="code_variable">s</span>, <span class="code_variable">mu0_list</span>))<BR>
+)<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{%t67} \]
+  <img src="composite_sphere_bulk_htmlimg/composite_sphere_bulk_36.png" width="598" style="max-width:90%;" alt=" (Graphics) " ><BR/>
+
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+Contrast = 100<BR>
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i69)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">k1_list</span> <span class="code_operator">:</span> [<span class="code_number">1e</span><span class="code_operator">-</span><span class="code_number">2</span>, <span class="code_number">1e</span><span class="code_operator">-</span><span class="code_number">1</span>, <span class="code_number">1</span>, <span class="code_number">1e1</span>, <span class="code_number">1e2</span>]<span class="code_endofline">$</span><BR>
+<span class="code_function">wxplot2d</span>(<BR>
+ &nbsp;&nbsp; <span class="code_function">mu_eff</span>(<span class="code_number">1</span>, <span class="code_number">1</span>, <span class="code_variable">k1_list</span>, <span class="code_number">100</span>, <span class="code_variable">f</span>),<BR>
+ &nbsp;&nbsp; [<span class="code_variable">f</span>, <span class="code_number">0</span>, <span class="code_number">1</span>],<BR>
+ &nbsp;&nbsp; [<span class="code_variable">gnuplot_preamble</span>, <span class="code_string">&quot;set key on inside left top&quot;</span>],<BR>
+ &nbsp;&nbsp; <span class="code_function">append</span>([<span class="code_variable">legend</span>], <span class="code_function">makelist</span>(<span class="code_function">concat</span>(<span class="code_string">&quot;k1 = &quot;</span>, <span class="code_variable">s</span>), <span class="code_variable">s</span>, <span class="code_variable">k1_list</span>))<BR>
+)<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{%t69} \]
+  <img src="composite_sphere_bulk_htmlimg/composite_sphere_bulk_38.png" width="598" style="max-width:90%;" alt=" (Graphics) " ><BR/>
+
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+Porous media (K1=0, mu1=0)<BR>
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i71)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">mu1_list</span> <span class="code_operator">:</span> [<span class="code_number">1e</span><span class="code_operator">-</span><span class="code_number">2</span>, <span class="code_number">1e</span><span class="code_operator">-</span><span class="code_number">1</span>, <span class="code_number">1</span>, <span class="code_number">1e1</span>, <span class="code_number">1e2</span>]<span class="code_endofline">$</span><BR>
+<span class="code_function">wxplot2d</span>(<BR>
+ &nbsp;&nbsp; <span class="code_function">k_eff</span>(<span class="code_number">1</span>, <span class="code_variable">mu1_list</span>, <span class="code_number">0</span>, <span class="code_variable">f</span>),<BR>
+ &nbsp;&nbsp; [<span class="code_variable">f</span>, <span class="code_number">0</span>, <span class="code_number">1</span>],<BR>
+ &nbsp;&nbsp; [<span class="code_variable">gnuplot_preamble</span>, <span class="code_string">&quot;set key on inside right top&quot;</span>],<BR>
+ &nbsp;&nbsp; <span class="code_function">append</span>([<span class="code_variable">legend</span>], <span class="code_function">makelist</span>(<span class="code_function">concat</span>(<span class="code_string">&quot;mu1 = &quot;</span>, <span class="code_variable">s</span>), <span class="code_variable">s</span>, <span class="code_variable">k1_list</span>))<BR>
+)<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{%t71} \]
+  <img src="composite_sphere_bulk_htmlimg/composite_sphere_bulk_40.png" width="598" style="max-width:90%;" alt=" (Graphics) " ><BR/>
+
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i73)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">k0_list</span> <span class="code_operator">:</span> [<span class="code_number">1e</span><span class="code_operator">-</span><span class="code_number">2</span>, <span class="code_number">1e</span><span class="code_operator">-</span><span class="code_number">1</span>, <span class="code_number">1</span>, <span class="code_number">1e1</span>, <span class="code_number">1e2</span>]<span class="code_endofline">$</span><BR>
+<span class="code_function">wxplot2d</span>(<BR>
+ &nbsp;&nbsp; <span class="code_function">mu_eff</span>(<span class="code_variable">k0_list</span>, <span class="code_number">1</span>, <span class="code_number">0</span>, <span class="code_number">0</span>, <span class="code_variable">f</span>),<BR>
+ &nbsp;&nbsp; [<span class="code_variable">f</span>, <span class="code_number">0</span>, <span class="code_number">1</span>],<BR>
+ &nbsp;&nbsp; [<span class="code_variable">gnuplot_preamble</span>, <span class="code_string">&quot;set key on inside right top&quot;</span>],<BR>
+ &nbsp;&nbsp; <span class="code_function">append</span>([<span class="code_variable">legend</span>], <span class="code_function">makelist</span>(<span class="code_function">concat</span>(<span class="code_string">&quot;k0 = &quot;</span>, <span class="code_variable">s</span>), <span class="code_variable">s</span>, <span class="code_variable">k1_list</span>))<BR>
+)<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{%t73} \]
+  <img src="composite_sphere_bulk_htmlimg/composite_sphere_bulk_42.png" width="598" style="max-width:90%;" alt=" (Graphics) " ><BR/>
+
+
+
+<!-- Text cell -->
+
+
+<P CLASS="comment">&nbsp;
+In function of the contrast<BR>
+</P>
+
+
+<!-- Code cell -->
+
+
+<TABLE><TR><TD>
+  <SPAN CLASS="prompt">
+(%i75)	
+  </SPAN></TD>
+  <TD><SPAN CLASS="input">
+<span class="code_variable">f_list</span> <span class="code_operator">:</span> [.<span class="code_number">01</span>, <span class="code_number">.</span><span class="code_number">20</span>, <span class="code_number">.</span><span class="code_number">50</span>, <span class="code_number">.</span><span class="code_number">70</span>, <span class="code_number">.</span><span class="code_number">99</span>]<span class="code_endofline">$</span><BR>
+<span class="code_function">wxplot2d</span>(<BR>
+ &nbsp;&nbsp; <span class="code_function">k_eff</span>(<span class="code_number">1</span>, <span class="code_number">1</span>, <span class="code_variable">k1</span>, <span class="code_variable">f_list</span>),<BR>
+ &nbsp;&nbsp; [<span class="code_variable">k1</span>, <span class="code_number">1e</span><span class="code_operator">-</span><span class="code_number">2</span>, <span class="code_number">1e2</span>],<BR>
+ &nbsp;&nbsp; [<span class="code_variable">logx</span>],<BR>
+ &nbsp;&nbsp; [<span class="code_variable">logy</span>],<BR>
+ &nbsp;&nbsp; [<span class="code_variable">gnuplot_preamble</span>, <span class="code_string">&quot;set key on inside left top&quot;</span>],<BR>
+ &nbsp;&nbsp; <span class="code_function">append</span>([<span class="code_variable">legend</span>], <span class="code_function">makelist</span>(<span class="code_function">concat</span>(<span class="code_string">&quot;f = &quot;</span>, <span class="code_variable">s</span>), <span class="code_variable">s</span>, <span class="code_variable">f_list</span>))<BR>
+)<span class="code_endofline">$</span>  </SPAN></TD>
+</TR></TABLE>
+\[\tag{%t75} \]
+  <img src="composite_sphere_bulk_htmlimg/composite_sphere_bulk_44.png" width="598" style="max-width:90%;" alt=" (Graphics) " ><BR/>
+
+
+ <HR>
+ <SMALL> Created with <A HREF="https://wxMaxima-developers.github.io/wxmaxima/">wxMaxima</A>.</SMALL>
+ </BODY>
+</HTML>
